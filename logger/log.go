@@ -22,6 +22,14 @@ var logFiles = map[string]*os.File{"infolog": infoFile, "warnlog": warnFile, "er
 
 func init() {
 
+	if _, err = os.Stat("logs"); os.IsNotExist(err) {
+
+		err = os.Mkdir("logs", 0755)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+
 	timeFormat := time.Now().Format("02-01-2006")
 
 	for filename, file := range logFiles {
